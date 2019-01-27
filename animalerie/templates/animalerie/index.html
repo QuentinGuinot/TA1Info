@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />		
+        <link rel="stylesheet" href="style.css" />
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+        <title>Animalerie</title>
+    </head>
+ 
+    <body>
+		<header style="width: 60%;
+	text-align: center;
+	height: 10%;
+	border-radius: 10px;
+	margin-left: 20%;
+	margin-right:20%;">
+			<h1><img src="http://qguinot.perso.ec-m.fr/ta2/logo.png" /></h1>
+		</header>
+		<section style="width: 100%;
+	text-align: center;
+	height: 10%;">			
+			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+			<h2>Animaux présents</h2>
+			{% if animal_list %}
+	<div style="width:50%; margin-left:40%; text-align:center;">
+    <ul>
+    {% for animal in animal_list %}
+        <table>
+            <tr>
+                <td>{{ animal.NAME }} est </td>
+                <td>{{ animal.ETAT }} dans la </td>
+                <td>{{ animal.LIEU }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+    </ul>
+	</div>
+{% if action_list %}
+<h2>S'occuper des animaux</h2>
+<h4>Que voulez-vous faire ?</h4>
+
+<form action="{% url 'action' %}" method="post">
+{% csrf_token %}
+<ul>
+{% for action in action_list %}
+    <input type="radio" name="actions" id="actions{{ forloop.counter }}" value="{{ action }}">
+    <label for="actions{{ forloop.counter }}">{{ action }}</label><br>
+{% endfor %}
+</ul>
+<h4>Qui ?</h4>
+<ul>
+{% for animal in animal_list %}
+    <input type="radio" name="id_animal" id="id_animal{{ forloop.counter }}" value="{{ animal.NAME }}">
+    <label for="id_animal{{ forloop.counter }}">{{ animal.NAME }}</label><br>
+{% endfor %}
+</ul>
+
+<br/>
+<input type="submit" value="Valider">
+</form>
+
+{% else %}
+    <p>No action</p>
+{% endif %}
+
+
+{% else %}
+    <p>No animal here</p>
+{% endif %}
+
+		</section>
+		<footer style="width: 100%;
+	text-align: center;
+	height: 5%;
+	border-top: 1px black solid;
+	border-radius: 10px;
+	text-decoration: none;
+	margin-top:20px;">
+			<p><strong style="color: black;
+	font-weight: normal;
+	font-size: 12px;">2019 - Quentin Guinot</strong></p>
+		</footer>
+    </body>
+</html>
